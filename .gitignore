@@ -1,0 +1,4 @@
+*.suo
+/Secret/bin
+/Secret/obj
+/Secret/Properties
