@@ -106,11 +106,13 @@ namespace Secret
 
         private static void _doWork(List<int> primes)
         {
-            int x, y;
+            int x, y, startIndex;
             for(int i = 0; i < primes.Count; i++)
             {
                 x = primes[i];
-                for (int j = 0; j < primes.Count; j++ )
+                startIndex = i;
+                
+                for (int j = startIndex; j < primes.Count; j++ )
                 {
                     y = primes[j];
 
