@@ -11,6 +11,8 @@ namespace Secret
     // Describe how to run your examples.
     class Program
     {
+        static int falseCount = 0;
+
         static void Main()
         {   
             var limit = _getLimit(0);
@@ -19,7 +21,27 @@ namespace Secret
 
             _testPrimes(primes);
 
-            // prevent app from automagically exiting
+            // print the results
+            Console.WriteLine();
+            Console.WriteLine("Like a Geraldo Rivera paternity test THE RESULT IS IN...");
+            Console.WriteLine();
+            Console.Write("Secret ");
+
+            if (falseCount > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("IS NOT");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("IS");
+            }
+
+            Console.ResetColor();
+            Console.Write(" additive for all combinations of primes under {0}", limit);
+
+            // prevent app from automagically exiting so we can see our glorious output
             Console.ReadLine();
         }
 
@@ -28,18 +50,20 @@ namespace Secret
         {
             return number;
         }
-
-        // Recursively call this until the user gets the input correct
+        
         static int _getLimit(int count)
         {
+            Console.ResetColor();
+
             count++;
             Console.WriteLine("Enter a positive integer");
             var value = Console.ReadLine();
 
             int limit;
+
+            // Recursively call this function until the user gets the input correct or hits one of our "Effing with us" limits
             if (!int.TryParse(value, out limit) || limit <= 0)
-            {                
-                Console.BackgroundColor = ConsoleColor.Black;
+            {   
                 Console.ForegroundColor = ConsoleColor.Red;
 
                 if (count >= 3 && count < 5)
@@ -48,7 +72,7 @@ namespace Secret
                 } 
                 else if (count == 5)
                 {
-                    Console.WriteLine("Obviously you're effing with me. So I'm using 100 and you can go jump in a lake.");
+                    Console.WriteLine("Obviously you're effing with me. So I'm using 40 and you can go jump in a lake.");
                     limit = 100;
                     return limit;
                 } 
@@ -56,8 +80,7 @@ namespace Secret
                 {
                     Console.WriteLine("Value must be a positive integer");
                 }
-
-                Console.ResetColor();
+                
                 Console.WriteLine();
                 return _getLimit(count);
             }
@@ -68,6 +91,7 @@ namespace Secret
         // Implementation of the Sieve of Eratosthenes courtesy of http://rosettacode.org/wiki/Sieve_of_Eratosthenes#C.23
         private static List<int> _getPrimes(int limit)
         {
+            Console.ResetColor();
             var primes = new List<int>() { 2 };
             var maxSquareRoot = Math.Sqrt(limit);
             var eliminated = new BitArray(limit + 1);
@@ -94,18 +118,21 @@ namespace Secret
             return primes;
         }
 
+        // Writes the list of primes to the console
         private static void _listPrimes(List<int> primes)
         {
+            Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Green;
             foreach (int prime in primes)
             {
                 Console.WriteLine(prime);
             }
-            Console.ResetColor();
         }
 
+        // Tests the primes per the specified conditions
         private static void _testPrimes(List<int> primes)
         {
+            Console.ResetColor();
             int x, y, startIndex;
             for(int i = 0; i < primes.Count; i++)
             {
@@ -122,12 +149,14 @@ namespace Secret
 
                     Console.Write("{0},{1}: ", x, y);
                     bool isAdditive = _isAdditive(x, y);
+                    
                     if (isAdditive)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                     }
                     else
                     {
+                        falseCount++;
                         Console.ForegroundColor = ConsoleColor.Red;
                     }
                     Console.WriteLine(isAdditive);
@@ -136,6 +165,7 @@ namespace Secret
             }
         }
 
+        // Test if secret(x+y) == secret(x) + secret(y)
         private static bool _isAdditive(int x, int y)
         {
             if (secret(x+y) == (secret(x) + secret(y))) {
