@@ -68,10 +68,6 @@ namespace Secret
         // Implementation of the Sieve of Eratosthenes courtesy of http://rosettacode.org/wiki/Sieve_of_Eratosthenes#C.23
         private static List<int> _getPrimes(int limit)
         {
-            Console.WriteLine();
-            Console.WriteLine("Getting all primes <= " + limit.ToString());
-            Console.WriteLine();
-
             var primes = new List<int>() { 2 };
             var maxSquareRoot = Math.Sqrt(limit);
             var eliminated = new BitArray(limit + 1);
@@ -90,6 +86,10 @@ namespace Secret
                     }
                 }
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Found {0} prime numbers <= {1}", primes.Count, limit);
+            Console.WriteLine();
 
             return primes;
         }
@@ -120,22 +120,18 @@ namespace Secret
                 {
                     y = primes[j];
 
-                    // only calculate for differing numbers
-                    if (x != y)
+                    Console.Write("{0},{1}: ", x, y);
+                    bool isAdditive = _isAdditive(x, y);
+                    if (isAdditive)
                     {
-                        Console.Write("{0},{1}: ", x, y);
-                        bool isAdditive = _isAdditive(x, y);
-                        if (isAdditive)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                        }
-                        Console.WriteLine(isAdditive);
-                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Green;
                     }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    Console.WriteLine(isAdditive);
+                    Console.ResetColor();
                 }
             }
         }
