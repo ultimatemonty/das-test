@@ -17,7 +17,7 @@ namespace Secret
             
             var primes = _getPrimes(limit);
 
-            _doWork(primes);
+            _testPrimes(primes);
 
             // prevent app from automagically exiting
             Console.ReadLine();
@@ -104,15 +104,19 @@ namespace Secret
             Console.ResetColor();
         }
 
-        private static void _doWork(List<int> primes)
+        private static void _testPrimes(List<int> primes)
         {
             int x, y, startIndex;
             for(int i = 0; i < primes.Count; i++)
             {
                 x = primes[i];
+
+                // since we know the combinations will regress linearly we simply keep track of the primary index 
+                //      and start the secondary loop at that index
+                // in this way we skip combinations that have already been tested
                 startIndex = i;
                 
-                for (int j = startIndex; j < primes.Count; j++ )
+                for (int j = startIndex; j < primes.Count; j++)
                 {
                     y = primes[j];
 
