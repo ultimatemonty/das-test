@@ -11,14 +11,17 @@ namespace Secret
     // Describe how to run your examples.
     class Program
     {
-        static int falseCount = 0;
+        static int falseCount = 0;  // keep track of total false results
 
         static void Main()
         {   
+            // get user input
             var limit = _getLimit(0);
             
+            // get primes from user input
             var primes = _getPrimes(limit);
 
+            // do codez
             _testPrimes(primes);
 
             // print the results
@@ -51,6 +54,9 @@ namespace Secret
             return number;
         }
         
+        // Get user input.
+        // This will allow for some tom-foolery by giving the user 5 tries to figure out what a positive integer is
+        // After that we just assume it' actually a cat running the program, choose a value for the user, and move along
         static int _getLimit(int count)
         {
             Console.ResetColor();
@@ -68,16 +74,19 @@ namespace Secret
 
                 if (count >= 3 && count < 5)
                 {
+                    // Insert incredulity
                     Console.WriteLine("Seriously? Value must be a POSITIVE INTEGER - I.E. A WHOLE NUMBER GREATER THAN 0");
                 } 
                 else if (count == 5)
                 {
+                    // Insert snark
                     Console.WriteLine("Obviously you're effing with me. So I'm using 40 and you can go jump in a lake.");
                     limit = 100;
                     return limit;
                 } 
                 else 
                 {
+                    // Friendly neighborhood instructions
                     Console.WriteLine("Value must be a positive integer");
                 }
                 
