@@ -14,16 +14,12 @@ namespace Secret
         static void Main()
         {   
             var limit = _getLimit(0);
-            Console.WriteLine();
-            Console.WriteLine("Getting all primes <= " + limit.ToString());
-            Console.WriteLine();
+            
             var primes = _getPrimes(limit);
-            Console.ForegroundColor = ConsoleColor.Green;
-            foreach(int prime in primes)
-            {   
-                Console.WriteLine(prime);
-            }
-            Console.ResetColor();
+
+            _doWork(primes);
+
+            // prevent app from automagically exiting
             Console.ReadLine();
         }
 
@@ -72,6 +68,10 @@ namespace Secret
         // Implementation of the Sieve of Eratosthenes courtesy of http://rosettacode.org/wiki/Sieve_of_Eratosthenes#C.23
         private static List<int> _getPrimes(int limit)
         {
+            Console.WriteLine();
+            Console.WriteLine("Getting all primes <= " + limit.ToString());
+            Console.WriteLine();
+
             var primes = new List<int>() { 2 };
             var maxSquareRoot = Math.Sqrt(limit);
             var eliminated = new BitArray(limit + 1);
@@ -92,6 +92,55 @@ namespace Secret
             }
 
             return primes;
+        }
+
+        private static void _listPrimes(List<int> primes)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            foreach (int prime in primes)
+            {
+                Console.WriteLine(prime);
+            }
+            Console.ResetColor();
+        }
+
+        private static void _doWork(List<int> primes)
+        {
+            int x, y;
+            for(int i = 0; i < primes.Count; i++)
+            {
+                x = primes[i];
+                for (int j = 0; j < primes.Count; j++ )
+                {
+                    y = primes[j];
+
+                    // only calculate for differing numbers
+                    if (x != y)
+                    {
+                        Console.Write("{0},{1}: ", x, y);
+                        bool isAdditive = _isAdditive(x, y);
+                        if (isAdditive)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        Console.WriteLine(isAdditive);
+                        Console.ResetColor();
+                    }
+                }
+            }
+        }
+
+        private static bool _isAdditive(int x, int y)
+        {
+            if (secret(x+y) == (secret(x) + secret(y))) {
+                return true;
+            }
+
+            return false;
         }
     }
 }
