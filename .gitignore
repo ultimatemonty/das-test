@@ -1,4 +1,15 @@
 *.suo
-/Secret/bin
+
 /Secret/obj
+
 /Secret/Properties
+
+/Secret/bin/Debug
+
+*.vshost.exe.manifest
+
+*.pdb
+
+*.vshost.exe
+
+*.vshost.exe.config
